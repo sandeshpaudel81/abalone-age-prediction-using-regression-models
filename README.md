@@ -16,14 +16,12 @@ This project leverages **machine learning regression models** to predict the num
 
 ## 📦 Dependencies and Libraries Used
 
-(Only names shown; no code included)
-
 - `numpy`
 - `pandas`
 - `matplotlib`
 - `seaborn`
 - `sklearn`
-- `xgboost`
+- `xgboost`, `linear_models`, `ensemble`
 - `google.colab.drive` (for accessing data)
 
 ---
@@ -53,19 +51,19 @@ This project leverages **machine learning regression models** to predict the num
 ## 📊 Data Exploration
 
 ### ➤ Data Description
-(📷 *Place image for `data.describe()` output here*)
+![Data description of abalone dataset](./images/data-statistics.png)
 
 ### ➤ Pair Plot Analysis
-(📷 *Place image of `sns.pairplot()` here*)
+![Pair scatter plot of abalone dataset](./images/sns-pair-plot.png)
 
 - `Length` and `Diameter` are **highly correlated**.
 - `Whole Weight` is also highly correlated with other weight-based features (`Shucked Weight`, `Viscera Weight`, `Shell Weight`).
 
 ### ➤ Correlation Heatmap
-(📷 *Place heatmap image here*)
+![Correlation heatmap of abalone dataset](./images/correlation_matrix.png)
 
 ### ➤ Box Plot for Outlier Detection
-(📷 *Place box plot image here*)
+![Box plot of abalone dataset](./images/box-plot.png)
 
 - Visualized all numerical features for skewness and outliers using box plots.
 
