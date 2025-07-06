@@ -1,10 +1,10 @@
-# 🐚 Prediction of Abalone Age Using Regression Models
+# Prediction of Abalone Age Using Regression Models
 
 ![Project Banner - Place Your Image Here](images/abalone-banner.png)
 
 ---
 
-## 📘 Introduction
+## Introduction
 
 Abalone is a marine shellfish, rich in protein and omega-3 fatty acids. These sea snails have a distinctive flattened, ear-shaped shell and muscular foot. As abalones grow, their shells form **concentric rings**, similar to tree rings, which can be used to estimate age.
 
@@ -14,7 +14,17 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 📦 Dependencies and Libraries Used
+## Project Goals
+
+- Predict the age of abalone using physical measurements.
+- Compare the performance of multiple regression models.
+- Evaluate results using metrics like **MAE**, **RMSE**, and **R²**.
+- Explore hyperparameter tuning to boost performance.
+- Improve model generalization and accuracy on unseen data.
+
+---
+
+## Dependencies and Libraries Used
 
 - `numpy`
 - `pandas`
@@ -26,7 +36,7 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 📂 Dataset
+## Dataset
 
 **Source**:  
 [UCI Machine Learning Repository - Abalone Dataset](https://archive.ics.uci.edu/ml/datasets/Abalone)  
@@ -40,7 +50,7 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 🧼 Data Cleaning and Transformation
+## Data Cleaning and Transformation
 
 - Among the 9 features, **1 is categorical**: `Sex` (M: Male, F: Female, I: Infant); the rest are numeric.
 - Verified the dataset has **no missing values**.
@@ -48,7 +58,7 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 📊 Data Exploration
+## Data Exploration
 
 ### ➤ Data Description
 ![Data description of abalone dataset](./images/data-statistics.png)
@@ -69,7 +79,7 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 🧮 Preprocessing
+## Preprocessing
 
 - **Label Encoding** was used to convert `Sex` (categorical) into numeric values.
 - The target variable is **`Rings`**, while the remaining columns are used as independent variables (**X**).
@@ -78,50 +88,78 @@ This project leverages **machine learning regression models** to predict the num
 
 ---
 
-## 🚧 Work in Progress
+## 🤖 Modeling: Default Regression Models
 
-Model training, evaluation, hyperparameter tuning, and final results will be covered in the next stages.
+We initialized and trained the following five regression models with **default parameters**:
 
----
+- `LinearRegression`
+- `XGBRegressor`
+- `Lasso`
+- `RandomForestRegressor`
+- `Ridge`
 
-## 📌 Project Goals
+Each model was fitted on the training data, and predictions were generated for both the **train** and **test** datasets.
 
-- Build multiple regression models (Linear, Ridge, Lasso, Random Forest, XGBoost)
-- Compare performance using metrics: **MAE**, **RMSE**, and **R²**
-- Tune best-performing models for optimal generalization
-- Visualize predictions and errors
+### 🔎 Insights from Training Data
 
----
+![Performance metrics of regression models on training data set](./images/train-metrics.png)
 
-## 🧠 Future Improvements
+- **XGBRegressor** and **RandomForestRegressor** had the **lowest error values** and **highest R² scores**, indicating excellent performance on training data.
 
-- Add SHAP value interpretation for feature importance
-- Deploy the model via a web interface or API
-- Incorporate time-based or environmental features if available
+### 🔍 Insights from Test Data
 
----
+![Performance metrics of regression models on test data set](./images/test-metrics.png)
 
-## 📷 Image Gallery (Replace with your visuals)
-
-| Visual | Description |
-|--------|-------------|
-| ![](images/data-describe.png) | Dataset Summary |
-| ![](images/pairplot.png) | Pairplot of Numerical Features |
-| ![](images/heatmap.png) | Feature Correlation Heatmap |
-| ![](images/boxplot.png) | Boxplot for Outliers |
+- Surprisingly, **XGBRegressor** and **RFRegressor** **underperformed on test data**, suggesting **overfitting**.
+- **Lasso** performed poorly across both datasets — indicating **underfitting**.
+- **LinearRegression** and **Ridge** generalized well, with **no significant drop** in R², maintaining ~0.53. While not perfect, it's a **decent baseline** and shows promise for further optimization.
 
 ---
 
-## 👨‍💻 Author
+## 🛠️ Hyperparameter Tuning: Random Forest
 
-**Sandesh Paudel**  
-Master of Data Science  
-Charles Darwin University  
-GitHub: [@sandeshp77](https://github.com/sandeshp77)
+To improve the model's generalization, we used **GridSearchCV** to hypertune the `RandomForestRegressor`. The parameter grid included:
+
+```python
+param_grid = {
+    'n_estimators': [100, 200],
+    'max_depth': [None, 10, 20],
+    'min_samples_split': [2, 5],
+    'min_samples_leaf': [1, 2],
+    'bootstrap': [True, False]
+}
 
 ---
 
-## 📄 License
+### 🔬 Tuning Result Analysis
+Train:
+![Performance metrics of default and hypertuned RFRegressor on training data set](./images/train-rf-both.png)
+Test:
+![Performance metrics of default and hypertuned RFRegressor on test data set](./images/test-rf-both.png)
 
-This project is licensed under the MIT License.
+- The **R² score decreased** on the **training set**, indicating reduced overfitting.
+- However, **no meaningful improvement** was seen on the **test set**.
+- The results imply that **even a tuned Random Forest cannot generalize well enough** for this problem.
+
+---
+
+## Future Work
+
+- **Try more powerful models** such as:
+  - XGBoost (with hyperparameter tuning)
+  - LightGBM
+  - CatBoost
+
+- **Enhance feature engineering**:
+  - Add polynomial or interaction terms
+  - Use dimensionality reduction (PCA)
+  - Explore domain-specific transformations
+
+- **Cross-validation** with more folds or different scoring metrics to get robust estimates.
+
+- **Model interpretability** with SHAP or feature importance plots.
+
+- **Deploy the best model** with a web interface or API to allow real-time abalone age prediction.
+
+
 
