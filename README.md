@@ -1,7 +1,5 @@
 # Prediction of Abalone Age Using Regression Models
 
-![Project Banner - Place Your Image Here](images/abalone-banner.png)
-
 ---
 
 ## Introduction
